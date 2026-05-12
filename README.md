@@ -1,103 +1,75 @@
-# 🤖 Claude Agent Core
+# Claude Agent Core
 
-[![Stars](https://img.shields.io/github/stars/Informant254/claude-agent-core?style=social)](https://github.com/Informant254/claude-agent-core/stargazers)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Claude 3.5 Sonnet](https://img.shields.io/badge/Claude-3.5%20Sonnet-orange.svg)](https://www.anthropic.com/claude)
-[![Defensive Excellence](https://img.shields.io/badge/Security-Defensive%20Design-success)](https://github.com/Informant254/claude-agent-core)
+**Lightweight • Secure • Zero-Trust** Claude 3.5 Sonnet Agent Framework
 
-**High-performance, lightweight Python primitives for building Claude-powered agents with explicit input validation and zero-trust tool policy gates.**
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
----
+A minimal, security-first Python library for building reliable agents with **Claude 3.5 Sonnet**.
 
-## 🌟 Why Claude Agent Core?
+## ✨ Why Choose Claude Agent Core?
 
-While large frameworks like LangChain or CrewAI offer extensive features, they often come with significant overhead and "black-box" safety decisions. **Claude Agent Core** is built for developers who demand:
+- **Lightweight** — Minimal dependencies, fast startup
+- **Security-First** — Built-in Fortress Gate (human + TOTP approval)
+- **Zero-Trust Design** — Secrets never live in the agent process
+- **Strong Policy Engine** — Automatic risk scoring and dangerous action blocking
+- **Easy to Use** — Clean API for both beginners and advanced users
 
-- **Absolute Control**: Explicitly gate every tool call before it hits your production environment.
-- **Claude Optimization**: Specifically tuned for Claude 3.5 Sonnet's unique prompt structures and tool-calling capabilities.
-- **Zero Dependencies**: A thin, readable foundation that won't bloat your project.
-- **Security-First**: Built-in validation for prompts, token counts, and tool arguments.
-
----
-
-## 🏗️ Architecture: The Policy Gate
-
-Claude Agent Core introduces a **Policy Layer** that sits between the LLM and your external tools. This ensures that even if an LLM is "hallucinating" or being manipulated, your system remains secure.
-
-```mermaid
-graph TD
-    User[User Prompt] --> Client[ClaudeClient]
-    Client --> LLM((Claude 3.5))
-    LLM --> ToolCall[Tool Call Request]
-    ToolCall --> Policy{ToolPolicy Gate}
-    Policy -- Allowed --> Exec[Execute Tool]
-    Policy -- Denied --> Error[Security Exception]
-    Policy -- Review --> Manual[Human-in-the-loop]
-    Exec --> Result[Result to Claude]
-```
-
----
-
-## 🛠️ Quick Start
-
-### Installation
+## 🚀 Quick Start
 
 ```bash
-pip install git+https://github.com/Informant254/claude-agent-core.git
+pip install claude-agent-core
 ```
 
-### Basic Usage
-
 ```python
-from claude_agent_core.client import ClaudeClient
+from claude_agent_core import ClaudeAgent, SecureFortressGate
 
-# Initialize the client (looks for ANTHROPIC_API_KEY in env)
-client = ClaudeClient()
+# Initialize secure fortress (out-of-process)
+fortress = SecureFortressGate()
 
-response = client.generate_response("Draft a security policy for a small startup.")
-print(response)
-```
-
-### Implementing a Zero-Trust Tool Policy
-
-```python
-from claude_agent_core.policy import ToolPolicy
-
-# Define your safety boundaries
-policy = ToolPolicy(
-    allowed_tools={"search_web", "read_file"},
-    confirmation_required={"delete_file", "send_email"},
-    max_argument_bytes=1024, # Prevent prompt injection via massive arguments
+agent = ClaudeAgent(
+    api_key="sk-ant-...",
+    fortress=fortress,           # Human + TOTP required for risky actions
+    policy_enforcement="strict"
 )
 
-# Evaluate a tool call before execution
-decision = policy.evaluate("delete_file", {"path": "config.json"})
-
-if decision.allowed and decision.requires_confirmation:
-    print("⚠️ Action requires human approval!")
+response = agent.chat("Summarize my latest research papers")
+print(response.content)
 ```
 
----
+## 🔥 Killer Demo: Secure Downloads Organizer
 
-## 📊 Comparison
+```bash
+python examples/killer_downloads_organizer.py
+```
 
-| Feature | Claude Agent Core | LangChain | CrewAI |
-| :--- | :--- | :--- | :--- |
-| **Complexity** | Extremely Low | High | Medium |
-| **Learning Curve** | 5 Minutes | Weeks | Days |
-| **Security Gates** | Native & Explicit | Middleware/Custom | Custom |
-| **Claude Optimization** | Primary Focus | General | General |
-| **Dependencies** | Minimal | Heavy | Heavy |
+This demo shows the agent intelligently organizing your Downloads folder while requiring **human approval + TOTP** for any file operations.
 
----
+## Core Features
 
-## 🤝 Contributing & Support
+| Feature                    | Description |
+|---------------------------|-----------|
+| **SecureFortressGate**    | Out-of-process TOTP + human approval system |
+| **ToolPolicy**            | Risk scoring, prompt injection protection, dangerous tool blocking |
+| **Claude 3.5 Sonnet**     | Full tool calling + conversation memory |
+| **DPAPI Vault**           | Secure secret storage (Windows 7 compatible) |
+| **Audit Logging**         | Complete activity trail |
 
-We are building the most secure foundation for AI agents. If you believe in a safer AI future:
+## Examples
 
-1.  **Give us a ⭐ Star** – It helps more developers find this project.
-2.  **Fork & Contribute** – Check out our [Good First Issues](https://github.com/Informant254/claude-agent-core/issues).
-3.  **Share** – Let others know about a lightweight alternative for Claude agents.
+- `examples/killer_downloads_organizer.py` → **Recommended starting point**
+- `examples/secure_fortress_usage.py` → Full secure setup
 
-Built with ❤️ by [Informant254](https://github.com/Informant254)
+## Security Philosophy
+
+> "The agent is powerful, but never trusted blindly."
+
+## Installation
+
+```bash
+git clone https://github.com/Informant254/claude-agent-core.git
+cd claude-agent-core
+pip install -e .
+```
+
+**Built with ❤️ in Nairobi**
