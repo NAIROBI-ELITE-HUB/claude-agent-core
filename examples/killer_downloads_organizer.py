@@ -3,22 +3,23 @@ import os
 from pathlib import Path
 
 def main():
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        print("Please set ANTHROPIC_API_KEY environment variable")
-        return
-    
     agent = ClaudeAgent()
+    
     downloads = str(Path.home() / "Downloads")
     
-    prompt = f"""You are a helpful file organizer.
-Analyze the Downloads folder at: {downloads}
-Suggest a clean organization structure.
-Be safe and conservative."""
+    prompt = f"""
+    You are a helpful file organizer.
+    Analyze the Downloads folder at: {downloads}
+    Suggest a clean organization structure (categories like Documents, Images, Code, etc.).
+    Be safe and conservative.
+    """
     
-    print("Running demo...")
+    print("Running Downloads Organizer Demo...\n")
     response = agent.chat(prompt)
-    print("\nResponse:")
     print(response.content)
 
 if __name__ == "__main__":
-    main()
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        print("Error: ANTHROPIC_API_KEY environment variable not set.")
+    else:
+        main()

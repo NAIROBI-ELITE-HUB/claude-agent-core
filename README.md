@@ -1,14 +1,14 @@
 # claude-agent-core
 
-Lightweight Python wrapper for Claude 3.5 Sonnet focused on agentic workflows with strong safety features.
+Lightweight Python wrapper for Claude 3.5 Sonnet, focused on agentic workflows with strong safety controls.
 
 ## Features
-- Clean ClaudeAgent interface
+- Clean `ClaudeAgent` interface
 - Tool calling support
 - ToolPolicy with risk scoring
-- Fortress Gate (human + TOTP approval)
+- Fortress Gate (human approval + TOTP)
 - Conversation memory
-- Secure vault support
+- Secure vault handling (DPAPI on Windows)
 
 ## Installation
 
@@ -23,7 +23,28 @@ pip install -e .
 ```python
 from claude_agent_core import ClaudeAgent
 
-agent = ClaudeAgent()
-response = agent.chat("Hello! Tell me a joke.")
+agent = ClaudeAgent()  # Uses ANTHROPIC_API_KEY from environment
+
+response = agent.chat("Hello, who are you?")
 print(response.content)
 ```
+
+## Secure Mode (Recommended)
+
+```python
+from claude_agent_core import ClaudeAgent, SecureFortressGate, ToolPolicy
+
+fortress = SecureFortressGate()
+policy = ToolPolicy(enforcement_level="strict")
+
+agent = ClaudeAgent(fortress=fortress, policy=policy)
+
+response = agent.chat("Organize my Downloads folder")
+```
+
+## Examples
+- `examples/killer_downloads_organizer.py` — Practical demo with Fortress
+- `examples/secure_fortress_usage.py` — Full secure setup
+
+## Project Status
+Early stage. Actively developed.
