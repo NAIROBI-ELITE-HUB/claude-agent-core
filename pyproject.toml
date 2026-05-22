@@ -1,12 +1,14 @@
 [project]
 name = "claude-agent-core"
 version = "0.5.0"
-description = "Lightweight, secure, self-evolving Python wrapper for Claude models with Zero-Trust and Fortress protection"
+description = "Lightweight, secure, self-evolving Python wrapper for Anthropic Claude models with Zero-Trust and Fortress protection"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
-authors = [{name = "Informant254"}]
-keywords = ["claude", "anthropic", "agent", "llm", "zero-trust", "self-evolving", "fortress"]
+authors = [
+    {name = "Informant254"}
+]
+keywords = ["claude", "anthropic", "agent", "llm", "self-evolving", "zero-trust", "fortress"]
 
 dependencies = [
     "anthropic>=0.30.0",
@@ -15,7 +17,15 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "ruff"]
+dev = [
+    "pytest",
+    "black",
+    "ruff",
+]
+
+[project.urls]
+Homepage = "https://github.com/Informant254/claude-agent-core"
+Repository = "https://github.com/Informant254/claude-agent-core"
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
@@ -23,3 +33,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["claude_agent_core*"]
+exclude = ["tests*", "examples*"]

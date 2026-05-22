@@ -1,25 +1,24 @@
 # claude-agent-core
 
-**Self-evolving, Zero-Trust Claude Agent Framework**
+**Self-Evolving • Zero-Trust • Secure** Claude Agent Framework
 
-Lightweight wrapper for all Anthropic Claude models with built-in Fortress human gate, Zero-Trust security, and self-improvement capabilities.
+A powerful, lightweight wrapper for Anthropic Claude models with built-in self-improvement, Zero-Trust security, and Fortress human gate.
 
-## Key Features
-- Multi-model support (Sonnet, Opus, Haiku)
-- SecureFortressGate (Human + TOTP)
-- Zero-Trust Security Layer
-- Self-reflection & Code Evolution Engine
-- Persistent Memory
+## Features
+- Multi-model support (Sonnet, Opus, Haiku, etc.)
+- Self-evolving system (memory + reflection + code improvement)
+- Zero-Trust security layer
+- Fortress human + TOTP gate
+- Persistent learning
 
 ## Quick Start
-
-```bash
-pip install -e .
-```
 
 ```python
 from claude_agent_core import ClaudeAgent
 
 agent = ClaudeAgent()
 response = agent.chat("Hello")
+print(response)
 ```
+
+Star if you like it ⭐
